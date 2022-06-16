@@ -6,14 +6,12 @@
 
 NGINX_VERSION=${NGINX_VERSION-1.20.2}
 PCRE_VERSION=${PCRE_VERSION-8.45}
-HEADERS_MORE_VERSION=${HEADERS_MORE_VERSION-0.33}
 ZLIB_VERSION=${ZLIB_VERSION-1.2.12}
 UUID4_VERSION=${UUID4_VERSION-master}
 OPENRESTY_VERSION=${OPENRESTY_VERSION-1.21.4.1}
 
 openresty_tarball_url=https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz
 pcre_tarball_url=https://ftp.exim.org/pub/pcre/pcre-${PCRE_VERSION}.tar.gz
-headers_more_nginx_module_url=https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz
 uuid4_url=https://github.com/cybozu/nginx-uuid4-module/archive/${UUID4_VERSION}.tar.gz
 zlib_url=http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz
 
@@ -27,9 +25,6 @@ curl -L $openresty_tarball_url | tar xzv
 
 echo "Downloading $pcre_tarball_url"
 (cd openresty-${OPENRESTY_VERSION} && curl -L $pcre_tarball_url | tar xvz )
-
-echo "Downloading $headers_more_nginx_module_url"
-(cd openresty-${OPENRESTY_VERSION} && curl -L $headers_more_nginx_module_url | tar xvz )
 
 echo "Downloading $zlib_url"
 (cd openresty-${OPENRESTY_VERSION} && curl -L $zlib_url | tar xvz )
@@ -47,7 +42,6 @@ echo "Downloading $uuid4_url"
     --with-http_realip_module \
     --with-http_ssl_module \
     --prefix=/tmp/nginx \
-    --add-module=${temp_dir}/openresty-${OPENRESTY_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
     --add-module=${temp_dir}/openresty-${OPENRESTY_VERSION}/nginx-uuid4-module-${UUID4_VERSION}
   make install
 )
@@ -63,7 +57,6 @@ echo "Downloading $uuid4_url"
     --with-http_realip_module \
     --with-http_ssl_module \
     --prefix=/tmp/nginx-debug \
-    --add-module=${temp_dir}/openresty-${OPENRESTY_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
     --add-module=${temp_dir}/openresty-${OPENRESTY_VERSION}/nginx-uuid4-module-${UUID4_VERSION}
   make install
 )
