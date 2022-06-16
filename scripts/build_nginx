@@ -63,6 +63,7 @@ echo "Downloading $uuid4_url"
 
 release_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
+cp /tmp/nginx/luajit/lib/libluajit-5.1.so.2 $release_dir/libluajit-5.1.so.2
 cp /tmp/nginx/nginx/sbin/nginx $release_dir/nginx
 cp /tmp/nginx-debug/nginx/sbin/nginx $release_dir/nginx-debug
 cp /tmp/nginx/nginx/conf/mime.types $release_dir/mime.types

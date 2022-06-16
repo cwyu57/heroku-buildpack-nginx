@@ -16,6 +16,10 @@ do
   esac
 done
 
+# Setup shared object path
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"$(pwd)/bin/lib"
+ldconfig
+
 # Initialize log directory.
 mkdir -p logs/nginx
 touch logs/nginx/access.log logs/nginx/error.log

@@ -10,10 +10,11 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname "$(dirname "$0")")"
 
-mkdir -p "$BUILD_DIR/bin/"
+mkdir -p "$BUILD_DIR/bin/lib"
 mkdir -p "$BUILD_DIR/nginx"
 tar -zxvf "nginx-$STACK".tgz -C "$BUILD_DIR/nginx"
 
+cp "$BUILD_DIR/nginx/libluajit-5.1.so.2" "$BUILD_DIR/bin/lib/libluajit-5.1.so.2"
 cp "$BUILD_DIR/nginx/nginx" "$BUILD_DIR/bin/nginx"
 cp "$BUILD_DIR/nginx/nginx-debug" "$BUILD_DIR/bin/nginx-debug"
 
