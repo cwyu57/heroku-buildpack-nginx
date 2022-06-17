@@ -10,16 +10,11 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname "$(dirname "$0")")"
 
-mkdir -p "$BUILD_DIR/bin/lib"
-mkdir -p "$BUILD_DIR/nginx"
-tar -zxvf "nginx-$STACK".tgz -C "$BUILD_DIR/nginx"
+mkdir -p "$BUILD_DIR/openresty"
+tar -zxvf "openresty-$STACK".tgz -C "$BUILD_DIR/openresty"
 
-cp "$BUILD_DIR/nginx/libluajit-5.1.so.2" "$BUILD_DIR/bin/lib/libluajit-5.1.so.2"
-cp "$BUILD_DIR/nginx/nginx" "$BUILD_DIR/bin/nginx"
-cp "$BUILD_DIR/nginx/nginx-debug" "$BUILD_DIR/bin/nginx-debug"
-
-nginx_version=$($BUILD_DIR/bin/nginx -V 2>&1 | head -1 | awk '{ print $NF }')
-echo "-----> nginx-buildpack: Installed ${nginx_version} to app/bin"
+openresty_version=$($BUILD_DIR/openresty/bin/nginx -V 2>&1 | head -1 | awk '{ print $NF }')
+echo "-----> nginx-buildpack: Installed ${openresty_version} to app/openresty"
 cp bin/start-nginx "$BUILD_DIR/bin/"
 echo '-----> nginx-buildpack: Added start-nginx to app/bin'
 cp bin/start-nginx-debug "$BUILD_DIR/bin/"
@@ -30,7 +25,7 @@ echo '-----> nginx-buildpack: Added start-nginx-solo to app/bin'
 mkdir -p "$BUILD_DIR/config"
 
 if [[ ! -f $BUILD_DIR/config/mime.types ]]; then
-	cp "$BUILD_DIR/nginx/mime.types" "$BUILD_DIR/config/"
+	cp "$BUILD_DIR/openresty/nginx/conf/mime.types" "$BUILD_DIR/config/"
 	echo '-----> nginx-buildpack: Default mime.types copied to app/config/'
 else
 	echo '-----> nginx-buildpack: Custom mime.types found in app/config.'
@@ -42,8 +37,5 @@ if [[ ! -f $BUILD_DIR/config/nginx.conf.erb ]]; then
 else
 	echo '-----> nginx-buildpack: Custom config found in app/config.'
 fi
-
-# cleanup
-rm -r "$BUILD_DIR/nginx"
 
 exit 0
