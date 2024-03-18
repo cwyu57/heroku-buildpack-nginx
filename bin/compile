@@ -9,6 +9,17 @@ unset GIT_DIR
 BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname "$(dirname "$0")")"
+LS_RESULT="$(ls -al)"
+
+echo '-----> BUILD_DIR'
+echo $BUILD_DIR
+echo '-----> CACHE_DIR'
+echo $CACHE_DIR
+echo '-----> BUILDPACK_DIR'
+echo $BUILDPACK_DIR
+echo '-----> LS_RESULT'
+echo $LS_RESULT
+
 
 mkdir -p "$BUILD_DIR/openresty"
 tar -zxvf "openresty-$STACK".tgz -C "$BUILD_DIR/openresty"
